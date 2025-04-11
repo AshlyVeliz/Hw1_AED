@@ -2,7 +2,7 @@
 
 ## 📌 Integrantes del grupo
 - Abel Esvobar ()
-- Darlene Escobar ()
+- Darlene Escobar (202310296)
 - Ashly Veliz (202210422)
 
 ---
