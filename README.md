@@ -1,7 +1,7 @@
 # Lista Simplemente Enlazada (Hw1)
 
 ## 📌 Integrantes del grupo
-- Abel Esvobar ()
+- Abel Escobar (202310682)
 - Darlene Escobar (202310296)
 - Ashly Veliz (202210422)
 
@@ -34,6 +34,7 @@ Esta función elimina el último nodo de la lista y retorna su valor. Si solo ha
 Permite acceder al valor de un nodo según su índice en la lista, como si fuera un arreglo. Se recorre la lista desde el nodo `head` hasta llegar al índice deseado. Si el índice está fuera de rango, lanza una excepción `out_of_range`.
 
 ---
+
 
 ## Observaciones
 - Todas las funciones se implementaron de forma genérica usando templates (`template <typename T>`).
