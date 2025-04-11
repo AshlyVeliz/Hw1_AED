@@ -51,6 +51,7 @@ public:
         size++;
     }
 
+<<<<<<< HEAD
     // 4 ultimos ejercicios 
 
     int size() const {
@@ -155,3 +156,47 @@ public:
     }
 
 };
+=======
+    bool empty() {
+        return head == nullptr;
+    }
+    T pop_front() {
+        if (empty()) throw runtime_error("La lista está vacía");
+        Node* temp = head;
+        T val = head->val;
+        head = head->next;
+        delete temp;
+        size--;
+        return val;
+    }
+    T pop_back() {
+        if (empty()) throw runtime_error("La lista está vacía");
+        if (head->next == nullptr) {
+            T val = head->val;
+            delete head;
+            head = nullptr;
+            size--;
+            return val;
+        }
+        Node* current = head;
+        while (current->next->next != nullptr) {
+            current = current->next;
+        }
+        T val = current->next->val;
+        delete current->next;
+        current->next = nullptr;
+        size--;
+        return val;
+    }
+
+    T operator[](int index) {
+        if (index < 0 || index >= size) throw out_of_range("El índice excede el tamaño de la lista");
+        Node* current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        return current->val;
+    }
+
+};
+>>>>>>> 8302aad (ejercicios 5 - 8 (Darlene))
