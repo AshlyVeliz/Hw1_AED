@@ -21,9 +21,6 @@ public:
         return head == nullptr;
     }
 
-    int size() const {
-        return _size;
-    }
 
     T front() {
         if (!head) throw runtime_error("Lista vacía");
@@ -109,6 +106,29 @@ public:
             delete temp;
         }
         _size = 0;
+    }
+
+    bool empty (){
+        if (!head){
+            return true;
+        }
+        else return false;
+    }
+
+
+    int size() const {
+        Node* temp = new Node(); 
+        temp = head;
+        if (!temp) return 0;
+        if(temp->next) return 1;
+        int count = 1;
+        Node* curr = head;
+        
+        while (curr->next !=nullptr) {
+            count++;
+            curr = curr->next;
+        }
+        return count;
     }
 
     void reverse() {
