@@ -12,24 +12,32 @@ private:
     };
 
     Node* head;
-    int size;
+    int _size;
 
 public:
-    ForwardList() : head(nullptr), size(0) {}
+    ForwardList() : head(nullptr), _size(0) {}
+
+    bool empty() {
+        return head == nullptr;
+    }
+
+    int size() const {
+        return _size;
+    }
 
     T front() {
-        if (!head) throw runtime_error("Lista vacia");
+        if (!head) throw runtime_error("Lista vacía");
         return head->val;
     }
 
     void push_front(T value) {
         Node* newNode = new Node{value, head};
         head = newNode;
-        size++;
+        _size++;
     }
 
     T back() {
-        if (!head) throw runtime_error("Lista vacia");
+        if (!head) throw runtime_error("Lista vacía");
         Node* temp = head;
         while (temp->next) {
             temp = temp->next;
@@ -48,62 +56,98 @@ public:
             }
             temp->next = newNode;
         }
-        size++;
+        _size++;
     }
 
-<<<<<<< HEAD
-    // 4 ultimos ejercicios 
+    T pop_front() {
+        if (empty()) throw runtime_error("La lista está vacía");
+        Node* temp = head;
+        T val = head->val;
+        head = head->next;
+        delete temp;
+        _size--;
+        return val;
+    }
 
-    int size() const {
-        // 23 til 28
-        Node* temp = new Node(); 
-        temp = head;
-        if (!temp) return 0;
-        if(temp->next) return 1;
-        int count = 1;
-        Node* curr = head;
-        
-        while (curr->next !=nullptr) {
-            count++;
-            curr = curr->next;
+    T pop_back() {
+        if (empty()) throw runtime_error("La lista está vacía");
+
+        if (head->next == nullptr) {
+            T val = head->val;
+            delete head;
+            head = nullptr;
+            _size--;
+            return val;
         }
-        return count;
+
+        Node* current = head;
+        while (current->next->next != nullptr) {
+            current = current->next;
+        }
+
+        T val = current->next->val;
+        delete current->next;
+        current->next = nullptr;
+        _size--;
+        return val;
     }
 
+    T operator[](int index) {
+        if (index < 0 || index >= _size) throw out_of_range("El índice excede el tamaño de la lista");
+        Node* current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+        return current->val;
+    }
 
     void clear() {
-        // clear forward
-        Node* temp = head;
-        Node* aux = new Node();
-        while(head){
-            aux = head;
-            head = head ->next;
-            delete aux;
+        Node* temp;
+        while (head) {
+            temp = head;
+            head = head->next;
+            delete temp;
         }
+        _size = 0;
     }
 
-    // merge sort using private functions
+    void reverse() {
+        Node* prev = nullptr;
+        Node* curr = head;
+        Node* next = nullptr;
+        while (curr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+    }
 
-    Node* findMiddle(Node* head) {
-        if (!head) return nullptr;
-        Node* slow = head;
-        Node* fast = head;
+    void sort() {
+        head = mergeSort(head);
+    }
+
+private:
+    Node* findMiddle(Node* node) {
+        if (!node) return nullptr;
+        Node* slow = node;
+        Node* fast = node;
 
         while (fast->next && fast->next->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
-
         return slow;
     }
 
     Node* merge(Node* left, Node* right) {
         if (!left) return right;
         if (!right) return left;
-    
-        Node dummy(0, nullptr); // Dummy node to simplify merging
+
+        Node dummy(0);
         Node* tail = &dummy;
-    
+
         while (left && right) {
             if (left->val <= right->val) {
                 tail->next = left;
@@ -114,89 +158,22 @@ public:
             }
             tail = tail->next;
         }
-    
-        if (left) tail->next = left;
-        if (right) tail->next = right;
-    
+
+        tail->next = (left) ? left : right;
+
         return dummy.next;
     }
 
-    Node* mergeSort(Node* head) {
-        if (!head || !head->next) return head;
+    Node* mergeSort(Node* node) {
+        if (!node || !node->next) return node;
 
-        Node* middle = findMiddle(head);
-        Node* left = head;
+        Node* middle = findMiddle(node);
         Node* right = middle->next;
-        middle->next = nullptr; 
+        middle->next = nullptr;
 
-        left = mergeSort(left);
+        Node* left = mergeSort(node);
         right = mergeSort(right);
 
         return merge(left, right);
     }
-    void sort() { // Para poder llamar a la funcion
-        head = mergeSort(head);
-    }
-
-    
-
-    // last reverse node
-    void reverse(Node* head){
-        Node* next = nullptr;
-        Node* curr = head;
-        Node* prev = nullptr;
-        while (curr){
-            next = curr->next;
-            curr->next = prev;
-            // advance one step // one node
-            prev = curr; 
-            curr = next;
-        }
-        head = prev; // because head is null
-    }
-
 };
-=======
-    bool empty() {
-        return head == nullptr;
-    }
-    T pop_front() {
-        if (empty()) throw runtime_error("La lista está vacía");
-        Node* temp = head;
-        T val = head->val;
-        head = head->next;
-        delete temp;
-        size--;
-        return val;
-    }
-    T pop_back() {
-        if (empty()) throw runtime_error("La lista está vacía");
-        if (head->next == nullptr) {
-            T val = head->val;
-            delete head;
-            head = nullptr;
-            size--;
-            return val;
-        }
-        Node* current = head;
-        while (current->next->next != nullptr) {
-            current = current->next;
-        }
-        T val = current->next->val;
-        delete current->next;
-        current->next = nullptr;
-        size--;
-        return val;
-    }
-
-    T operator[](int index) {
-        if (index < 0 || index >= size) throw out_of_range("El índice excede el tamaño de la lista");
-        Node* current = head;
-        for (int i = 0; i < index; i++) {
-            current = current->next;
-        }
-        return current->val;
-    }
-
-};
->>>>>>> 8302aad (ejercicios 5 - 8 (Darlene))
