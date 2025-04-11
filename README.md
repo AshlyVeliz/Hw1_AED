@@ -5,7 +5,7 @@
 - Darlene Escobar (202310296)
 - Ashly Veliz (202210422)
 
----
+------
 
 ## ⚙️ Funciones implementadas y su explicación
 
